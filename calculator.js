@@ -1,11 +1,24 @@
 var expression = "";
+
 function add(character) {
-  expression = expression + character;
-  document.getElementById("enter").value = expression;
+  var display = document.getElementById("enter");
+  if (display.value === "0" && !isNaN(character)) {
+    expression = character;
+  } else {
+    expression += character;
+  }
+  display.value = expression;
 }
 
 function compute() {
-  document.getElementById("enter").value = eval(expression);
+  try {
+    var result = new Function('return ' + expression)();
+    document.getElementById("enter").value = result;
+    expression = result.toString();
+  } catch (error) {
+    document.getElementById("enter").value = "Error";
+    expression = "";
+  }
 }
 
 function clearDisplay() {
